@@ -1,0 +1,26 @@
+test_info:
+  title: current
+  host: ${host}
+  scheme: ${scheme}
+  method: GET
+  address: /api/v1/pub/current/user
+  mime_type:
+  headers: ${headers}
+  timeout: ${timeout}
+  file: false
+  cookies: false
+  premise: /pub/login/test_login.yaml
+test_case:
+- summary: user
+  describe: test_user
+  parameter:
+  check_body:
+    check_type: check_json
+    expected_code: 200
+    expected_result:
+      user_id: '1'
+      username: admin
+      realname: system admin
+      roles:
+      projects: []
+      type: 1

@@ -9,7 +9,7 @@ import logging
 import urllib.parse
 from comm.utils.readYaml import write_yaml_file, read_yaml_data
 from comm.utils.readJson import write_json_file
-from config import API_CONFIG, PROJECT_NAME
+from config import API_CONFIG, PROJECT_NAME, SKIP_API_LEVEL
 
 
 def init_api_conf(har_ct):
@@ -64,7 +64,10 @@ def parse_request_parameter(har_ct):
         elif method in 'PUT':
             parameter_list = har_ct["request"]["body"]["text"]
         elif method in 'DELETE':
-            parameter_list = urllib.parse.unquote(har_ct["request"]["body"]["text"])
+            if 'body' in har_ct["request"].keys():
+                parameter_list = urllib.parse.unquote(har_ct["request"]["body"]["text"])
+            else:
+                parameter_list = har_ct["query"]
         else:
             parameter_list = har_ct["query"]
 
@@ -95,7 +98,7 @@ def init_test_case(har_ct, module_path, parameter, file_name):
 
     # 定义请求入参信息，且当参数字符总长度大于200时单独写入json文件
     if len(str(parameter)) > 200:
-        param_name = title + '_request.json'
+        param_name = 'test_' + title + '_request.json'
         if param_name not in os.listdir(module_path):
             # 定义请求json
             param_dict = dict()
@@ -118,7 +121,7 @@ def init_test_case(har_ct, module_path, parameter, file_name):
 
     # 当返回参数字符总长度大于200时单独写入json文件
     if len(str(expected_request)) > 200:
-        result_name = title + '_response.json'
+        result_name = 'test_' + title + '_response.json'
         if result_name not in os.listdir(module_path):
             # 定义响应json
             result_dict = dict()
@@ -147,7 +150,6 @@ def write_case_yaml(har_path):
         # ext_name = os.path.splitext(each)[1]
         file_name, ext_name = os.path.splitext(each)
         if ext_name == '.chlsj':
-
             logging.info("读取抓包文件: {}".format(each))
             file_path = har_path+'/'+each
             with open(file_path, 'r', encoding='utf-8') as f:
@@ -158,10 +160,10 @@ def write_case_yaml(har_path):
                 method = har_ct["method"]
                 path = har_ct["path"]
                 title = file_name
-                # title = path.split("/")[-1].replace('-', '')
-                module = path.split("/")[-2].replace('-', '')
-                module_path = har_path.split('data')[0] + '/page/' + module
-
+                # module = path.split("/")[-2].replace('-', '')
+                group = path.split("/")[SKIP_API_LEVEL+1].replace('-', '')
+                module = path.split("/")[SKIP_API_LEVEL+2].replace('-', '')
+                module_path = har_path.split('data')[0] + '/page/' + group + '/' + module
                 # 创建模块目录
                 try:
                     os.makedirs(module_path)

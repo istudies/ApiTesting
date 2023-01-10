@@ -1,5 +1,5 @@
 # 运行项目名
-project_name: PyDemo
+project_name: artihub_ft
 
 # 运行模式:
 auto_switch: 2
@@ -26,6 +26,9 @@ maxfail: 20
 
 # 接口调用间隔时间（s）
 interval: 1
+
+# 解析cases跳过api的层级数，例如API统一为: /api/v1/开头，则可以设置为2，一般不建议该值大于3
+skip_api_level: 2
 
 # 测试结果校验方式说明（共5种方式）：
 # no_check：不做任何校验

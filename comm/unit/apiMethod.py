@@ -46,7 +46,7 @@ def post(headers, address, mime_type, timeout=10, data=None, files=None, cookies
                                  verify=False)
     elif 'application/json' in mime_type:
         response = requests.post(url=address,
-                                 data=data,
+                                 json=data,
                                  headers=headers,
                                  timeout=timeout,
                                  files=files,
@@ -54,7 +54,7 @@ def post(headers, address, mime_type, timeout=10, data=None, files=None, cookies
                                  verify=False)
     else:
         response = requests.post(url=address,
-                                 json=data,
+                                 data=data,
                                  headers=headers,
                                  timeout=timeout,
                                  files=files,

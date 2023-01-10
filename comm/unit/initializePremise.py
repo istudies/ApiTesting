@@ -90,8 +90,12 @@ def init_premise(test_info, case_data, case_path):
 
             # 检查接口是否调用成功
             if data:
+                # 根据结果注入 headers 变量
+                test_info = replaceRelevance.replace(test_info, data)
                 # 处理当前接口入参：获取入参-获取关联值-替换关联值
                 parameter = read_json(case_data['summary'], case_data['parameter'], case_path)
+                if parameter is None:
+                    parameter = {}
                 __relevance = readRelevance.get_relevance(data, parameter, __relevance)
                 parameter = replaceRelevance.replace(parameter, __relevance)
                 case_data['parameter'] = parameter
@@ -99,7 +103,7 @@ def init_premise(test_info, case_data, case_path):
 
                 # 获取当前接口期望结果：获取期望结果-获取关联值-替换关联值
                 expected_rs = read_json(case_data['summary'], case_data['check_body']['expected_result'], case_path)
-                parameter['data'] = data
+
                 __relevance = readRelevance.get_relevance(parameter, expected_rs, __relevance)
                 expected_rs = replaceRelevance.replace(expected_rs, __relevance)
                 case_data['check_body']['expected_result'] = expected_rs

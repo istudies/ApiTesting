@@ -1,8 +1,3 @@
-# -*- coding:utf-8 -*-
-# @Time    : 2020/12/03
-# @Author  : Leo Zhang
-# @File    : __init__.py
-# ***********************
 from comm.utils.readYaml import read_yaml_data
 import os
 
@@ -18,6 +13,7 @@ DB_CONFIG = ROOT_DIR+'config/dbConfig.yml'
 RC = read_yaml_data(RUN_CONFIG)
 INTERVAL = RC['interval']
 PROJECT_NAME = RC['project_name']
+SKIP_API_LEVEL = RC['skip_api_level']
 
 # 接口数据目录(.chlsj文件)
 DATA_DIR = ROOT_DIR+PROJECT_NAME+'/data'
@@ -28,3 +24,5 @@ TEST_DIR = ROOT_DIR+PROJECT_NAME+'/testcase'
 # 测试报告目录(xml|html)
 REPORT_DIR = ROOT_DIR+PROJECT_NAME+'/report'
 
+# 缓存全局的token认证信息
+AUTH_MAP={}

@@ -1,8 +1,8 @@
-PyDemo:
-  # 首次会根据接口数据包生成，可自行更改或添加新配置，所有配置将用于公共关联值。
+ft_demo:
   timeout: 10
   scheme: http
-  host: 127.0.0.1:20037
+  host: 192.168.4.165:8443
   headers:
-    Content-Type: application/x-www-form-urlencoded;charset=UTF-8
-  headtoken: xu5YwIZFkVGczMn0H0rot2ps7zRIbvrTHNwMXx1sJXg=
+    Content-Type: application/json
+    # 注入jwt认证信息，case可直接引入复用，前提是login/auth接口响应的字段保持一致
+    Authorization: "${token_type} ${access_token}"

@@ -1,0 +1,21 @@
+test_info:
+  title: current
+  host: ${host}
+  scheme: ${scheme}
+  method: GET
+  address: /api/v1/pub/current/projects
+  mime_type:
+  headers: ${headers}
+  timeout: ${timeout}
+  file: false
+  cookies: false
+  premise: /pub/login/test_login.yaml
+test_case:
+- summary: projects
+  describe: test_projects
+  parameter:
+  check_body:
+    check_type: check_json
+    expected_code: 200
+    expected_result:
+      list: []

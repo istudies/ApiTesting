@@ -1,0 +1,10 @@
+[
+    {
+        "summary": "login",
+        "body": {
+            "access_token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzMzMjA0MjgsImlhdCI6MTY3MzMxNjgyOCwibmJmIjoxNjczMzE2ODI4LCJzdWIiOiIxLWFkbWluIn0.XUQmNRZsr8tlcAnCqggu_MB_6WOXoxFWjlYsnZvjWuCIb7eQTyCqsnAl7zqIHhQUPmJvnV2AWiUTftCN8dq9aA",
+            "token_type": "Bearer",
+            "expires_at": 1673320428
+        }
+    }
+]

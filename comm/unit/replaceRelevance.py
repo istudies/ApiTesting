@@ -4,7 +4,9 @@
 # @File    : replaceRelevance.py
 # ****************************
 import re
+import logging
 from comm.utils.randomly import *
+from config import AUTH_MAP
 
 pattern_var = r"\${(.*?)}"
 pattern_eval = r"\$Eval\((.*?)\)"
@@ -43,6 +45,8 @@ def replace_relevance(param, relevance=None):
 		pass
 	else:
 		for each in result:
+			# 生成正在表达式并替换关联参数
+			pattern = re.compile('\${' + each + '}')
 			try:
 				# 关联值只考虑一个值
 				# value = relevance[each]
@@ -84,9 +88,11 @@ def replace_relevance(param, relevance=None):
 					n2 = int(mark[1].strip('[').strip(']'))
 					value = relevance[var][n1][n2]
 					each = each.replace('[', '\[').replace(']', '\]')
+				
+				# 缓存登录生成的token信息，全局共享
+				if each == 'token_type' or each == 'access_token':
+					AUTH_MAP[each] = str(value)
 
-				# 生成正在表达式并替换关联参数
-				pattern = re.compile('\${' + each + '}')
 				try:
 					if param.strip('${' + each + '}'):
 						param = re.sub(pattern, str(value), param)
@@ -95,8 +101,10 @@ def replace_relevance(param, relevance=None):
 				except TypeError:
 					param = value
 			except KeyError:
-				raise KeyError('替换变量{0}失败，未发现变量对应关联值！\n关联列表：{1}'.format(param, relevance))
+				logging.warning("替换变量{}失败，未发现变量对应关联值！\n关联列表：{}".format(param, relevance))
 				# pass
+				if each in AUTH_MAP.keys():
+					param = re.sub(pattern, AUTH_MAP[each], param)
 	return param
 
 
