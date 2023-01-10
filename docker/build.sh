@@ -6,7 +6,8 @@ apt-get update -y && \
   apt-get install -y sudo software-properties-common dialog apt-utils vim curl wget && \
   echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 apt-get install -y python3 pip nginx
-curl -o /root/allure_2.18.1-1_all.deb http://192.168.4.165:8000/allure_2.18.1-1_all.deb
+
+curl -o /root/allure_2.18.1-1_all.deb https://github.com/allure-framework/allure2/releases/download/2.18.1/allure_2.18.1-1_all.deb
 dpkg -i /root/allure_2.18.1-1_all.deb
 # apt autoremove -y
 apt --fix-broken install -y
@@ -25,6 +26,3 @@ EOF
 
 # use root user
 sed -i 's/www-data/root/g' /etc/nginx/nginx.conf
-
-# start nginx
-/etc/init.d/nginx start
